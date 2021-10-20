@@ -28,7 +28,7 @@ Item{
 
     property bool isActive: indicator.isActive || (indicator.isWindow && indicator.hasActive)
     property bool isSecondStackedBackLayer: false
-    property bool isThirdStackedBackLayer: false
+    //property bool isThirdStackedBackLayer: false
     property bool showProgress: false
 
     Rectangle {
@@ -42,7 +42,7 @@ Item{
         anchors.topMargin: PlasmaCore.Units.smallSpacing * 0.5
         anchors.leftMargin: anchors.topMargin * 2
         anchors.bottomMargin: anchors.topMargin
-        anchors.rightMargin: anchors.topMargin * 2 + (indicator.windowsCount>=2 ? (indicator.windowsCount>=3 ? groupItemLength * 0.2 : groupItemLength * 0.1) : 0 )
+        anchors.rightMargin: anchors.topMargin * 2 - (indicator.windowsCount >= 2 ? (indicator.windowsCount >= 3 ? groupItemLength * 0.4 : groupItemLength * 0.2) : 0)
 
         Behavior on opacity {
             NumberAnimation {
@@ -102,50 +102,8 @@ Item{
     Rectangle {
         id: backRect
         anchors.fill: parent
-        radius: 5 /*indicator.currentIconSize / 8*/
+        radius: 4 //indicator.currentIconSize / 8
         color: "transparent"
         clip: true
-    }
-
-    Rectangle {
-        id: activeLine
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: PlasmaCore.Units.smallSpacing * 0.5
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        radius: 3
-
-        width: {
-            return indicator.isActive ? parent.width * 0.4 : parent.width * 0.2;
-            /*
-            if (root.backgroundOpacity > 0 || (isSecondStackedBackLayer && !indicator.isHovered)) {
-                return parent.width * 0.5;
-            }
-
-            if (!isSecondStackedBackLayer && !isThirdStackedBackLayer && !indicator.isHovered && indicator.windowsCount>=2) {
-                return parent.width * 0.5 - shrinkLengthEdge * 0.5;
-            }
-
-            return parent.width * 0.5 /*- (2 * shrinkLengthEdge);*/
-        }
-
-        height: root.lineThickness
-
-        color: (rectangleItem.isActive) ? root.activeColor : "#C0C0C0"
-        visible: !indicator.isApplet && (rectangleItem.isActive || indicator.isWindow)
-
-        Behavior on width {
-            NumberAnimation {
-                duration: 120
-                easing.type: Easing.OutQuad
-            }
-
-        }
-        Behavior on color {
-            ColorAnimation {
-                duration: 120
-                //easing.type: Easing.OutQuad
-            }
-        }
     }
 }

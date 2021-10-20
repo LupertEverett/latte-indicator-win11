@@ -42,7 +42,7 @@ LatteComponents.IndicatorItem {
     readonly property int thickness: !isHorizontal ? width - screenEdgeMargin : height - screenEdgeMargin
 
     readonly property int shownWindows: indicator.windowsCount - indicator.windowsMinimizedCount
-    readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,2) : 3
+    readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,1) : 3
 
     readonly property int groupItemLength: indicator.currentIconSize * 0.13
     readonly property int groupsSideMargin: indicator.windowsCount <= 1 ? 0 : (Math.min(indicator.windowsCount-1,2) * root.groupItemLength)
@@ -94,11 +94,12 @@ LatteComponents.IndicatorItem {
 
     //! Bindings for properties that have introduced
     //! later on Latte versions > 0.9.2
+
     Binding{
         target: level.requested
         property: "iconOffsetX"
         when: level && level.requested && level.requested.hasOwnProperty("iconOffsetX")
-        value: -root.groupsSideMargin / 2
+        value: -root.groupsSideMargin / 6
     }
 
     Binding{
@@ -135,10 +136,11 @@ LatteComponents.IndicatorItem {
             id: backLayer
             anchors.fill: parent
             anchors.rightMargin: {
+                /*
                 if (secondStackedLoader.isUnhoveredSecondStacked) {
                     return root.groupItemLength + secondStackedLoader.offsetUnhoveredSecondStacked;
                 }
-
+*/
                 return groupsSideMargin;
             }
             active: level.isBackground && !indicator.inRemoving
@@ -159,7 +161,7 @@ LatteComponents.IndicatorItem {
                     return (shrinkLengthEdge - width) - 1 + offsetUnhoveredSecondStacked - 2;
                 }*/
 
-                return indicator.windowsCount > 2 && active ? groupItemLength  : 0
+                return indicator.windowsCount > 2 && active ? groupItemLength : 0
             }
 
             height: parent.height
@@ -169,10 +171,9 @@ LatteComponents.IndicatorItem {
             readonly property bool isUnhoveredSecondStacked: active && !indicator.isHovered && root.backgroundOpacity === 0
             //readonly property int offsetUnhoveredSecondStacked: isUnhoveredSecondStacked ? 2*(root.groupItemLength+1)+1 : 0
             //readonly property int offsetUnhoveredSecondStacked: isUnhoveredSecondStacked ? root.groupItemLength+3+groupsSideMargin : 0
-            readonly property int offsetUnhoveredSecondStacked: 0
+            //readonly property int offsetUnhoveredSecondStacked: 0
 
             sourceComponent: GroupRect{
-                //isSecondStackedBackLayer: true
             }
         }
 
@@ -186,17 +187,39 @@ LatteComponents.IndicatorItem {
             opacity: 0.4
 
             sourceComponent: GroupRect{
-                //isThirdStackedBackLayer: true
             }
         }
 
-      /*  Loader{
-            id: plasmaBackHighlight
-            anchors.fill: parent
-            active: level.isBackground && indicator.isActive && !indicator.isSquare
+        Rectangle {
+            id: activeLine
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: PlasmaCore.Units.smallSpacing * 0.5 + 1
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            sourceComponent: PlasmaHighlight{
+            radius: 2
+
+            width: {
+                return indicator.isActive ? parent.width * 0.3 : parent.width * 0.15;
             }
-        }*/
+
+            height: root.lineThickness
+
+            color: (indicator.hasActive) ? root.activeColor : "#9A9A9A"
+            visible: !indicator.isApplet && (indicator.isActive || indicator.isWindow)
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: 120
+                    easing.type: Easing.OutQuad
+                }
+
+            }
+            Behavior on color {
+                ColorAnimation {
+                    duration: 120
+                    //easing.type: Easing.OutQuad
+                }
+            }
+        }
     }
 }
