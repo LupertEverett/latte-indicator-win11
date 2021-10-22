@@ -38,63 +38,18 @@ Item{
         color:  "#c0c0c0"
         visible: opacity > 0
         opacity: root.backgroundOpacity
+        border.width: 1
+        border.color: "#ffffff"
 
-        anchors.topMargin: PlasmaCore.Units.smallSpacing * 0.5
+        anchors.topMargin: PlasmaCore.Units.smallSpacing * 0.6
         anchors.leftMargin: anchors.topMargin * 2
         anchors.bottomMargin: anchors.topMargin
-        anchors.rightMargin: anchors.topMargin * 2 - (indicator.windowsCount >= 2 ? (indicator.windowsCount >= 3 ? groupItemLength * 0.4 : groupItemLength * 0.2) : 0)
+        anchors.rightMargin: anchors.topMargin * 2 - (indicator.windowsCount >= 2 ? groupItemLength * 0.6 : 0)
 
         Behavior on opacity {
             NumberAnimation {
                 duration: 120
                 easing.type: Easing.OutQuad
-            }
-        }
-    }
-
-    Loader {
-        anchors.fill: parent
-        asynchronous: true
-        active: indicator.configuration.progressAnimationEnabled && rectangleItem.showProgress && indicator.progress>0
-        sourceComponent: Item{
-            Item{
-                id: progressFrame
-                anchors.fill: parent
-                Rectangle {
-                    width: backRect.width * (Math.min(indicator.progress, 100) / 100)
-                    height: backRect.height
-
-                    color: theme.neutralTextColor
-                }
-
-                visible: false
-            }
-
-            Item {
-                id: progressMask
-                anchors.fill: parent
-
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: 1
-                    radius: backRect.radius
-                    color: "red"
-                }
-                visible: false
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                radius: backRect.radius
-                color: "transparent"
-                clip: true
-
-                OpacityMask {
-                    anchors.fill: parent
-                    source: progressFrame
-                    maskSource: progressMask
-                    opacity: 0.8
-                }
             }
         }
     }

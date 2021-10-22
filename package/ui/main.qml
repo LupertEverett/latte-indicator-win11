@@ -42,7 +42,7 @@ LatteComponents.IndicatorItem {
     readonly property int thickness: !isHorizontal ? width - screenEdgeMargin : height - screenEdgeMargin
 
     readonly property int shownWindows: indicator.windowsCount - indicator.windowsMinimizedCount
-    readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,1) : 3
+    readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,1) : 2
 
     readonly property int groupItemLength: indicator.currentIconSize * 0.13
     readonly property int groupsSideMargin: indicator.windowsCount <= 1 ? 0 : (Math.min(indicator.windowsCount-1,2) * root.groupItemLength)
@@ -190,35 +190,14 @@ LatteComponents.IndicatorItem {
             }
         }
 
-        Rectangle {
+        Loader {
             id: activeLine
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: PlasmaCore.Units.smallSpacing * 0.5 + 1
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.fill: parent
 
-            radius: 2
+            active: indicator.isWindow
 
-            width: {
-                return indicator.isActive ? parent.width * 0.3 : parent.width * 0.15;
-            }
-
-            height: root.lineThickness
-
-            color: (indicator.hasActive) ? root.activeColor : "#9A9A9A"
-            visible: !indicator.isApplet && (indicator.isActive || indicator.isWindow)
-
-            Behavior on width {
-                NumberAnimation {
-                    duration: 120
-                    easing.type: Easing.OutQuad
-                }
-
-            }
-            Behavior on color {
-                ColorAnimation {
-                    duration: 120
-                    //easing.type: Easing.OutQuad
-                }
+            sourceComponent: ActiveLine{
+                showProgress: root.progressVisible
             }
         }
     }
