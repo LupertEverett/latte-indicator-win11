@@ -1,5 +1,15 @@
 ### CHANGELOG
 
+#### Version 0.3.1
+
+* Changed the metadata info, in order to prevent a name conflict with the other Win11 indicator: https://github.com/JM-Enthusiast/latte-indicator-win11
+
+NOTE: Due to this change, you CANNOT update from previous version, you'll need to remove the old one first, either from store or using this command below
+
+kpackagetool5 -r org.kde.latte.win11 -t Latte/Indicator
+
+Then install the new version. I am sorry for this inconvenience and it is my hoping that this won't happen again.
+
 #### Version 0.3.0
 
 * Added a border around the tasks
