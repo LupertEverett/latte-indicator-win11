@@ -12,16 +12,23 @@
         <default>true</default>
     </entry>    
     <entry name="maxBackgroundOpacity" type="Double">
-        <default>0.35</default>
+        <default>0.5</default>
     </entry>
     <entry name="lineThickness" type="Double">
         <default>0.1</default>
     </entry>
     <entry name="appletPadding" type="Double">
-        <default>0.15</default>
+        <default>0.10</default>
     </entry>
     <entry name="lengthPadding" type="Double">
         <default>0.35</default>
+    </entry>
+    <entry name="indicatorMode" type="Enum">
+        <choices>
+            <choice name="Light"/>
+            <choice name="Dark"/>
+        </choices>
+        <default>0</default>
     </entry>
   </group>
 </kcfg>

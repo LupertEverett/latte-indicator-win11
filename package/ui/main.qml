@@ -41,6 +41,8 @@ LatteComponents.IndicatorItem {
     readonly property int screenEdgeMargin: indicator.hasOwnProperty("screenEdgeMargin") ? indicator.screenEdgeMargin : 0
     readonly property int thickness: !isHorizontal ? width - screenEdgeMargin : height - screenEdgeMargin
 
+    readonly property int indicatorMode: indicator.configuration.indicatorMode
+
     readonly property int shownWindows: indicator.windowsCount - indicator.windowsMinimizedCount
     readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,1) : 2
 

@@ -30,16 +30,17 @@ Item{
     property bool isSecondStackedBackLayer: false
     //property bool isThirdStackedBackLayer: false
     property bool showProgress: false
+    property int indicatorMode: root.indicatorMode
 
     Rectangle {
         anchors.fill: parent
 
         radius: backRect.radius
-        color:  "#c0c0c0"
+        color:  indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0"
         visible: opacity > 0
         opacity: root.backgroundOpacity
         border.width: 1
-        border.color: "#ffffff"
+        border.color: indicatorMode === 0 /* light */ ? "#c8c8c8" : "#f0f0f0"
 
         anchors.topMargin: PlasmaCore.Units.smallSpacing * 0.6
         anchors.leftMargin: anchors.topMargin * 2

@@ -7,6 +7,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: activeIndicator
     property bool showProgress: false
+    property int indicatorMode: root.indicatorMode
 
     Rectangle {
         id: activeLine
@@ -17,18 +18,18 @@ Item {
         radius: 2
 
         width: {
-            return indicator.isActive ? parent.width * 0.3 : parent.width * 0.15;
+            return (indicator.isActive || progressLoader.status !== Loader.Null) ? parent.width * 0.3 : parent.width * 0.15;
         }
 
         height: root.lineThickness
 
         color: {
-            if (indicator.hasActive && progressLoader.status !== Loader.Null) {
-               return "#a0a0a0"
+            if (progressLoader.status !== Loader.Null) {
+               return indicatorMode === 0 /* Light */ ? "#b5b5b5" : "#2a2a2a"
             }
             else if (indicator.hasActive && progressLoader.status === Loader.Null)
                 return theme.highlightColor //root.activeColor
-            return "#9A9A9A"
+            return indicatorMode === 0 /* Light */ ? "#858585" : "#9a9a9a"
         }
 
         visible: !indicator.isApplet && (indicator.isActive || indicator.isWindow)
@@ -59,8 +60,8 @@ Item {
                 anchors.fill: parent
                 Rectangle {
                     width: activeLine.width * (Math.min(indicator.progress, 100) / 100)
-                    height: root.lineThickness
-                    color: theme.highlightColor
+                    height: root.lineThickness;
+                    color: indicator.isActive ? theme.highlightColor : (indicatorMode === 0 /* Light */ ? "#7e7e7e" : "#9e9e9e")
                 }
 
                 visible: false
@@ -82,7 +83,7 @@ Item {
                 anchors.fill: parent
                 radius: activeLine.radius
                 color: "transparent"
-                clip: true
+                //clip: true
 
                 OpacityMask {
                     anchors.fill: parent

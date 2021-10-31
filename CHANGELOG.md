@@ -1,5 +1,11 @@
 ### CHANGELOG
 
+#### Version 0.4.0
+
+* Further correction on colors.
+* Light and Dark modes.
+* Better looking progress bar.
+
 #### Version 0.3.1
 
 * Changed the metadata info, in order to prevent a name conflict with the other Win11 indicator: https://github.com/JM-Enthusiast/latte-indicator-win11

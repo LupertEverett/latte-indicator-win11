@@ -35,6 +35,66 @@ ColumnLayout {
     readonly property bool deprecatedPropertiesAreHidden: dialog && dialog.hasOwnProperty("deprecatedOptionsAreHidden") && dialog.deprecatedOptionsAreHidden
 
     LatteComponents.SubHeader {
+        text: i18n("Indicator Mode")
+    }
+
+    ColumnLayout {
+        spacing: 0
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 2
+
+            readonly property int indicatorMode: indicator.configuration.indicatorMode
+
+            readonly property int buttonsCount: 2
+            readonly property int buttonSize: (dialog.optionsWidth - (spacing * buttonsCount-1)) / buttonsCount
+
+            ExclusiveGroup {
+                id: modeGroup
+            }
+
+            PlasmaComponents.Button {
+                Layout.minimumWidth: parent.buttonSize
+                Layout.maximumWidth: Layout.minimumWidth
+
+                text: i18nc("Use light mode for the indicator","Light")
+                checked: parent.indicatorMode === mode
+                checkable: false
+                exclusiveGroup: modeGroup
+                tooltip: i18n("Light Mode for the indicator")
+
+                readonly property int mode: 0 /*Light Mode*/
+
+                onPressedChanged: {
+                    if (pressed) {
+                        indicator.configuration.indicatorMode = mode;
+                    }
+                }
+            }
+
+            PlasmaComponents.Button {
+                Layout.minimumWidth: parent.buttonSize
+                Layout.maximumWidth: Layout.minimumWidth
+
+                text: i18nc("Use dark mode for the indicator","Dark")
+                checked: parent.indicatorMode === mode
+                checkable: false
+                exclusiveGroup: modeGroup
+                tooltip: i18n("Dark Mode for the indicator")
+
+                readonly property int mode: 1 /*Dark Mode*/
+
+                onPressedChanged: {
+                    if (pressed) {
+                        indicator.configuration.indicatorMode = mode;
+                    }
+                }
+            }
+        }
+    }
+
+    LatteComponents.SubHeader {
         text: i18n("Appearance")
     }
 
@@ -93,6 +153,7 @@ ColumnLayout {
         RowLayout {
             Layout.fillWidth: true
             spacing: 2
+            visible: deprecatedPropertiesAreHidden
 
 
             PlasmaComponents.Label {
@@ -143,7 +204,7 @@ ColumnLayout {
         RowLayout {
             Layout.fillWidth: true
             spacing: units.smallSpacing
-            visible: deprecatedPropertiesAreHidden
+            //visible: deprecatedPropertiesAreHidden
 
             PlasmaComponents.Label {
                 text: i18n("Tasks Length")
