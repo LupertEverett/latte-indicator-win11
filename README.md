@@ -8,12 +8,12 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 
 <p align="center">
 <img src="https://imgur.com/SBSUlrc.png" width="560" ><br/>
-<i>Light Mode with Win11OS-light theme, using a custom accent color</i>
+<i>Light Mode with Win11OS-light theme</i>
 </p>
 
 <p align="center">
 <img src="https://imgur.com/XITVguB.png" width="560" ><br/>
-<i>Dark Mode with Breeze Dark style</i>
+<i>Dark Mode with Breeze Dark style, using a custom accent color</i>
 </p>
 
 <p align="center">
