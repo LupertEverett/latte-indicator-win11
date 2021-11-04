@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 
+
 Item {
     id: activeIndicator
     property bool showProgress: false
@@ -28,7 +29,9 @@ Item {
                return indicatorMode === 0 /* Light */ ? "#b5b5b5" : "#2a2a2a"
             }
             else if (indicator.hasActive && progressLoader.status === Loader.Null)
-                return theme.highlightColor //root.activeColor
+                // Note: Your Plasma Style MUST support custom color schemes if you want to
+                // be able to change the color with the custom accent color option
+                return root.activeColor
             return indicatorMode === 0 /* Light */ ? "#858585" : "#9a9a9a"
         }
 
@@ -39,12 +42,10 @@ Item {
                 duration: 120
                 easing.type: Easing.OutQuad
             }
-
         }
         Behavior on color {
             ColorAnimation {
                 duration: 120
-                //easing.type: Easing.OutQuad
             }
         }
     }
@@ -60,8 +61,8 @@ Item {
                 anchors.fill: parent
                 Rectangle {
                     width: activeLine.width * (Math.min(indicator.progress, 100) / 100)
-                    height: root.lineThickness;
-                    color: indicator.isActive ? theme.highlightColor : (indicatorMode === 0 /* Light */ ? "#7e7e7e" : "#9e9e9e")
+                    height: root.lineThickness
+                    color: indicator.isActive ? theme.linkColor : (indicatorMode === 0 /* Light */ ? "#7e7e7e" : "#9e9e9e")
                 }
 
                 visible: false
@@ -83,7 +84,6 @@ Item {
                 anchors.fill: parent
                 radius: activeLine.radius
                 color: "transparent"
-                //clip: true
 
                 OpacityMask {
                     anchors.fill: parent

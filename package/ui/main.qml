@@ -49,16 +49,16 @@ LatteComponents.IndicatorItem {
     readonly property int groupItemLength: indicator.currentIconSize * 0.13
     readonly property int groupsSideMargin: indicator.windowsCount <= 1 ? 0 : (Math.min(indicator.windowsCount-1,2) * root.groupItemLength)
 
-    readonly property real backColorBrightness: colorBrightness(indicator.palette.backgroundColor)
-    readonly property color activeColor: indicator.palette.buttonFocusColor
-    readonly property color outlineColor: {
+    //readonly property real backColorBrightness: colorBrightness(indicator.palette.backgroundColor)
+    readonly property color activeColor: indicator.palette.linkColor
+    /*readonly property color outlineColor: {
         if (!indicator.configuration.drawShapesBorder) {
             return "transparent"
         }
 
         return backColorBrightness < 127 ? indicator.palette.backgroundColor : indicator.palette.textColor;
-    }
-    readonly property color backgroundColor: indicator.palette.backgroundColor
+    }*/
+    //readonly property color backgroundColor: indicator.palette.backgroundColor
 
     function colorBrightness(color) {
         return colorBrightnessFromRGB(color.r * 255, color.g * 255, color.b * 255);
@@ -92,7 +92,6 @@ LatteComponents.IndicatorItem {
 
         return 0;
     }
-
 
     //! Bindings for properties that have introduced
     //! later on Latte versions > 0.9.2
@@ -137,20 +136,10 @@ LatteComponents.IndicatorItem {
         Loader{
             id: backLayer
             anchors.fill: parent
-            anchors.rightMargin: {
-                /*
-                if (secondStackedLoader.isUnhoveredSecondStacked) {
-                    return root.groupItemLength + secondStackedLoader.offsetUnhoveredSecondStacked;
-                }
-*/
-                return groupsSideMargin;
-            }
+            anchors.rightMargin: groupsSideMargin
             active: level.isBackground && !indicator.inRemoving
 
             sourceComponent: BackLayer{
-                anchors.fill: parent
-
-                showProgress: root.progressVisible
             }
         }
 
@@ -158,24 +147,15 @@ LatteComponents.IndicatorItem {
             id: secondStackedLoader
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            anchors.rightMargin: {
-                /*if (isUnhoveredSecondStacked) {
-                    return (shrinkLengthEdge - width) - 1 + offsetUnhoveredSecondStacked - 2;
-                }*/
-
-                return indicator.windowsCount > 2 && active ? groupItemLength : 0
-            }
+            anchors.rightMargin: (indicator.windowsCount > 2 && active) ? groupItemLength : 0
 
             height: parent.height
             active: indicator.windowsCount>=2 && !indicator.inRemoving
             opacity: 0.7
 
             readonly property bool isUnhoveredSecondStacked: active && !indicator.isHovered && root.backgroundOpacity === 0
-            //readonly property int offsetUnhoveredSecondStacked: isUnhoveredSecondStacked ? 2*(root.groupItemLength+1)+1 : 0
-            //readonly property int offsetUnhoveredSecondStacked: isUnhoveredSecondStacked ? root.groupItemLength+3+groupsSideMargin : 0
-            //readonly property int offsetUnhoveredSecondStacked: 0
 
-            sourceComponent: GroupRect{
+            sourceComponent: GroupRect {
             }
         }
 

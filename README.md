@@ -2,13 +2,23 @@
 This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/source/latte-dock/repository/master/), based on [Latte Win10 indicator](https://github.com/psifidotos/latte-indicator-win10).
 
 <p align="center">
-<img src="https://imgur.com/FEK6EoS.png" width="560" ><br/>
-<i>Light Mode</i>
+<img src="https://imgur.com/AFNYtYj.png" width="560" ><br/>
+<i>Light Mode with Breeze Light Theme, using a custom accent color</i>
 </p>
 
 <p align="center">
-<img src="https://imgur.com/FFNLtx8.png" width="560" ><br/>
-<i>Dark Mode</i>
+<img src="https://imgur.com/SBSUlrc.png" width="560" ><br/>
+<i>Light Mode with Win11OS-light theme, using a custom accent color</i>
+</p>
+
+<p align="center">
+<img src="https://imgur.com/XITVguB.png" width="560" ><br/>
+<i>Dark Mode with Breeze Dark style</i>
+</p>
+
+<p align="center">
+<img src="https://imgur.com/3HaN1Sc.png" width="560" ><br/>
+<i>Dark Mode with Win11OS-dark theme</i>
 </p>
 
 <p align="center">
@@ -16,11 +26,13 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 <i>Settings page as of 0.4.0</i>
 </p>
 
-# Note
+# Notes
 
-I don't (and cannot) use Win11, so I have no idea how accurate this indicator is.
+* There are no custom animations yet.
 
-Any help regarding the would be appreciated. I am gonna try my best to improve upon this but... QML is still something that makes my head spin.
+* Any panel positions other than bottom edge of the screen are "not supported" yet.
+
+* I don't (and cannot) use Win11, so I have no idea how accurate this indicator is. It is becoming better in that regard but still, any suggestions are appreciated!
 
 # Requires
 

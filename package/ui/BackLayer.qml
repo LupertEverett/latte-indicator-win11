@@ -24,23 +24,22 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item{
-    id: rectangleItem
-
     property bool isActive: indicator.isActive || (indicator.isWindow && indicator.hasActive)
-    property bool isSecondStackedBackLayer: false
-    //property bool isThirdStackedBackLayer: false
-    property bool showProgress: false
     property int indicatorMode: root.indicatorMode
+
+    layer.enabled: true
 
     Rectangle {
         anchors.fill: parent
 
-        radius: backRect.radius
-        color:  indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0"
+        radius: 8
+        color: indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0"
         visible: opacity > 0
         opacity: root.backgroundOpacity
         border.width: 1
         border.color: indicatorMode === 0 /* light */ ? "#c8c8c8" : "#f0f0f0"
+
+        clip: true
 
         anchors.topMargin: PlasmaCore.Units.smallSpacing * 0.6
         anchors.leftMargin: anchors.topMargin * 2
@@ -53,13 +52,5 @@ Item{
                 easing.type: Easing.OutQuad
             }
         }
-    }
-
-    Rectangle {
-        id: backRect
-        anchors.fill: parent
-        radius: 4 //indicator.currentIconSize / 8
-        color: "transparent"
-        clip: true
     }
 }

@@ -1,5 +1,11 @@
 ### CHANGELOG
 
+#### Version 0.5.0
+
+* Slight changes on how the indicator looks, that should make it appear more in line with Win11's style.
+* Active window line should be more brighter now, provided you use a theme that supports setting up custom accent colors.
+* Some cleanups.
+
 #### Version 0.4.0
 
 * Further correction on colors.
