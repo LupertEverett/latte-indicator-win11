@@ -43,11 +43,17 @@ LatteComponents.IndicatorItem {
 
     readonly property int indicatorMode: indicator.configuration.indicatorMode
 
+    readonly property bool showThreeTasksInGroup: indicator.configuration.showThreeTasksInGroup
+
     readonly property int shownWindows: indicator.windowsCount - indicator.windowsMinimizedCount
     readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,1) : 2
 
     readonly property int groupItemLength: indicator.currentIconSize * 0.13
-    readonly property int groupsSideMargin: indicator.windowsCount <= 1 ? 0 : (Math.min(indicator.windowsCount-1,2) * root.groupItemLength)
+    readonly property int groupsSideMargin: {
+        if (indicator.windowsCount <= 1)
+            return 0
+        return Math.min(indicator.windowsCount - 1, (showThreeTasksInGroup ? 2 : 1) ) * root.groupItemLength
+    }
 
     //readonly property real backColorBrightness: colorBrightness(indicator.palette.backgroundColor)
     readonly property color activeColor: indicator.palette.linkColor
@@ -147,7 +153,7 @@ LatteComponents.IndicatorItem {
             id: secondStackedLoader
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            anchors.rightMargin: (indicator.windowsCount > 2 && active) ? groupItemLength : 0
+            anchors.rightMargin: (showThreeTasksInGroup && indicator.windowsCount > 2 && active) ? groupItemLength : 0
 
             height: parent.height
             active: indicator.windowsCount>=2 && !indicator.inRemoving
@@ -165,7 +171,7 @@ LatteComponents.IndicatorItem {
             anchors.verticalCenter: parent.verticalCenter
 
             height: parent.height
-            active: indicator.windowsCount>=3 && backgroundOpacity > 0 && !secondStackedLoader.isUnhoveredSecondStacked && !indicator.inRemoving
+            active: showThreeTasksInGroup && indicator.windowsCount>=3 && backgroundOpacity > 0 && !secondStackedLoader.isUnhoveredSecondStacked && !indicator.inRemoving
             opacity: 0.4
 
             sourceComponent: GroupRect{

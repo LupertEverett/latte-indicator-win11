@@ -27,30 +27,93 @@ Item{
     property bool isActive: indicator.isActive || (indicator.isWindow && indicator.hasActive)
     property int indicatorMode: root.indicatorMode
 
+    readonly property bool isOnTopEdge: (plasmoid.location === PlasmaCore.Types.TopEdge)
+
+    readonly property int baseMargin: PlasmaCore.Units.smallSpacing * 0.6
+
     layer.enabled: true
 
     Rectangle {
+        id: mainRect
         anchors.fill: parent
 
-        radius: 8
+        radius: indicator.currentIconSize / 6
         color: indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0"
         visible: opacity > 0
         opacity: root.backgroundOpacity
-        border.width: 1
+        //border.width: 1
         border.color: indicatorMode === 0 /* light */ ? "#c8c8c8" : "#f0f0f0"
 
         clip: true
 
-        anchors.topMargin: PlasmaCore.Units.smallSpacing * 0.6
-        anchors.leftMargin: anchors.topMargin * 2
-        anchors.bottomMargin: anchors.topMargin
-        anchors.rightMargin: anchors.topMargin * 2 - (indicator.windowsCount >= 2 ? groupItemLength * 0.6 : 0)
+        anchors.topMargin: baseMargin
+        anchors.leftMargin: anchors.topMargin * (indicator.isTask ? 2 : 0)
+        anchors.bottomMargin: !isOnTopEdge ? baseMargin - 1 : baseMargin
+        anchors.rightMargin: anchors.topMargin * (indicator.isTask ? 2 : 0) - (indicator.windowsCount >= 2 ? groupItemLength * 0.6 : 0)
 
         Behavior on opacity {
             NumberAnimation {
                 duration: 120
                 easing.type: Easing.OutQuad
             }
+        }
+    }
+
+    // Slight "glow" on the top of the task is taken from:
+    // https://github.com/JM-Enthusiast/latte-indicator-win11/blob/main/package/ui/BackLayer.qml
+
+    Rectangle {
+        id: backRect
+        anchors.centerIn: parent
+        width: mainRect.width
+        height: mainRect.height
+        radius: mainRect.radius
+        color: "transparent"
+        border.width: 1
+        visible: false
+    }
+
+    Rectangle {
+        id: borderEffect
+        anchors.fill: parent
+        radius: mainRect.radius
+        gradient: !isOnTopEdge ? bottomGradient : topGradient
+        visible: false
+    }
+
+    OpacityMask {
+        anchors.centerIn: parent
+        width: mainRect.width
+        height: mainRect.height
+        source: borderEffect
+        maskSource: backRect
+        visible: mainRect.visible
+        opacity: mainRect.opacity + 0.05
+    }
+
+    // Gradients for Top and Bottom edges
+
+    Gradient {
+        id: bottomGradient
+        GradientStop {
+            position: 0.0
+            color: mainRect.border.color
+        }
+        GradientStop {
+            position: 0.1
+            color: "transparent"
+        }
+    }
+
+    Gradient {
+        id: topGradient
+        GradientStop {
+            position: 0.9
+            color: "transparent"
+        }
+        GradientStop {
+            position: 1.0
+            color: mainRect.border.color
         }
     }
 }

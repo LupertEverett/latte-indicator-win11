@@ -49,12 +49,26 @@ Item {
             visible: false
 
             Rectangle {
-                anchors.fill: parent
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: 2
+
+                height: 0.9 * parent.height
+                width: 0.3 * root.groupItemLength
+
                 color: "black"
 
-                anchors.topMargin: 0.1 * parent.height
-                anchors.bottomMargin: anchors.topMargin
-                anchors.rightMargin: 6.8
+                radius: 2
+            }
+
+            Rectangle {
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: 1
+                color: "black"
+
+                height: 0.8 * parent.height + 1
+                width: 0.6 * root.groupItemLength
 
                 radius: 6
             }

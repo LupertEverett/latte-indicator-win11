@@ -307,6 +307,16 @@ ColumnLayout {
                 indicator.configuration.progressAnimationEnabled = !indicator.configuration.progressAnimationEnabled
             }
         }
+
+        LatteComponents.CheckBox {
+            Layout.maximumWidth: dialog.optionsWidth
+            text: i18n("Show 3 tasks as a group (Win7-like) instead of 2 (Win10/11-like)")
+            checked: indicator.configuration.showThreeTasksInGroup
+
+            onClicked: {
+                indicator.configuration.showThreeTasksInGroup = !indicator.configuration.showThreeTasksInGroup
+            }
+        }
     }
 
     LatteComponents.CheckBox {

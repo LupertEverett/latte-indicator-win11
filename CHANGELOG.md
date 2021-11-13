@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+#### Version 0.6.0
+
+* Reduced the amount of "grouped windows" to 2, to match it with how it actually is in Win11 (and 10).
+An option is provided to return back to the previous behaviour (3 windows in a group - a la Win7).
+* Improved the appearance of tasks, with the "slightly glowing top section" tweak being taken from the other Win11 indicator: https://github.com/JM-Enthusiast/latte-indicator-win11/
+* Stylization for top panels.
+
 #### Version 0.5.0
 
 * Slight changes on how the indicator looks, that should make it appear more in line with Win11's style.

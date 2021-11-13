@@ -4,23 +4,25 @@ import QtGraphicalEffects 1.0
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-
 Item {
     id: activeIndicator
     property bool showProgress: false
     property int indicatorMode: root.indicatorMode
 
+    readonly property bool isOnTopEdge: (plasmoid.location === PlasmaCore.Types.TopEdge)
+
+    readonly property int lineMargin: PlasmaCore.Units.smallSpacing * 0.5 + 2
+
     Rectangle {
         id: activeLine
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: PlasmaCore.Units.smallSpacing * 0.5 + 1
+        anchors.topMargin: isOnTopEdge ? lineMargin : 0
+        anchors.bottomMargin: !isOnTopEdge ? lineMargin : 0
         anchors.horizontalCenter: parent.horizontalCenter
 
         radius: 2
 
-        width: {
-            return (indicator.isActive || progressLoader.status !== Loader.Null) ? parent.width * 0.3 : parent.width * 0.15;
-        }
+        width: (indicator.hasActive || progressLoader.status !== Loader.Null) ? parent.width * 0.3 : parent.width * 0.15;
 
         height: root.lineThickness
 
@@ -54,7 +56,7 @@ Item {
         id: progressLoader
         anchors.fill: activeLine
         asynchronous: true
-        active: indicator.configuration.progressAnimationEnabled && activeIndicator.showProgress && indicator.progress > 0
+        active: indicator.configuration.progressAnimationEnabled && activeIndicator.showProgress && indicator.progressVisible /*indicator.progress > 0*/
         sourceComponent: Item {
             Item {
                 id: progressFrame
@@ -94,4 +96,51 @@ Item {
             }
         }
     }
+
+    states: [
+        State {
+            name: "bottom"
+            when: plasmoid.location === PlasmaCore.Types.BottomEdge
+
+            AnchorChanges {
+                target: activeLine
+                anchors {
+                    bottom: parent.bottom
+                    top: undefined
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+
+            AnchorChanges {
+                target: progressLoader
+                anchors {
+                    bottom: parent.bottom
+                    top: undefined
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+        },
+        State {
+            name: "top"
+            when: plasmoid.location === PlasmaCore.Types.TopEdge
+
+            AnchorChanges {
+                target: activeLine
+                anchors {
+                    bottom: undefined
+                    top: parent.top
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+
+            AnchorChanges {
+                target: progressLoader
+                anchors {
+                    bottom: undefined
+                    top: parent.top
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+        }
+    ]
 }
