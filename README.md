@@ -22,8 +22,8 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 </p>
 
 <p align="center">
-<img src="https://imgur.com/IkmAVHf.png" width="560" ><br/>
-<i>Settings page as of 0.6.0</i>
+<img src="https://imgur.com/csCS59y.png" width="560" ><br/>
+<i>Settings page as of 0.7.0</i>
 </p>
 
 # Notes
@@ -36,9 +36,9 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 
 # Requires
 
-- Latte >= v0.9.2
+- Version >= 0.7.0 requires Latte >= 0.10.4
 
-(Pretty much what Win10 indicator requires)
+- 0.6.0 and earlier versions require Latte >= v0.9.2
 
 # Install
 

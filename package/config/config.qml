@@ -288,6 +288,56 @@ ColumnLayout {
                 Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
             }
         }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: units.smallSpacing
+
+            PlasmaComponents.Label {
+                Layout.minimumWidth: implicitWidth
+                horizontalAlignment: Text.AlignLeft
+                Layout.rightMargin: units.smallSpacing
+                text: i18n("Task Icons Scale")
+            }
+
+            LatteComponents.Slider {
+                id: iconScaleSlider
+                Layout.fillWidth: true
+                visible: level && level.requested && level.requested.hasOwnProperty("iconScale")
+
+                leftPadding: 0
+                value: indicator.configuration.taskIconScaling * 100
+                from: 50
+                to: 100
+                stepSize: 1
+                wheelEnabled: false
+
+                function updateIconScaling() {
+                    if (!pressed) {
+                        indicator.configuration.taskIconScaling = value / 100;
+                    }
+                }
+
+                onPressedChanged: {
+                    updateIconScaling();
+                }
+
+                Component.onCompleted: {
+                    valueChanged.connect(updateIconScaling);
+                }
+
+                Component.onDestruction: {
+                    valueChanged.disconnect(updateIconScaling);
+                }
+            }
+
+            PlasmaComponents.Label {
+                text: i18nc("number in percentage, e.g. 85 %","%1 %", iconScaleSlider.value)
+                horizontalAlignment: Text.AlignRight
+                Layout.minimumWidth: theme.mSize(theme.defaultFont).width * 4
+                Layout.maximumWidth: theme.mSize(theme.defaultFont).width * 4
+            }
+        }
     }
 
 

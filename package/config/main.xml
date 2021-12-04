@@ -23,6 +23,9 @@
     <entry name="lengthPadding" type="Double">
         <default>0.35</default>
     </entry>
+    <entry name="taskIconScaling" type="Double">
+        <default>1.0</default>
+    </entry>
     <entry name="indicatorMode" type="Enum">
         <choices>
             <choice name="Light"/>

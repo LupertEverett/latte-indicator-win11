@@ -17,22 +17,29 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
+import QtQuick 2.7
+import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.components 2.0 as PlasmaComponents
 
+import org.kde.latte.core 0.2 as LatteCore
 import org.kde.latte.components 1.0 as LatteComponents
 
 LatteComponents.IndicatorItem {
     id: root
     needsIconColors: true
-    providesFrontLayer: false
+    providesFrontLayer: true
     providesHoveredAnimation: true
     providesClickedAnimation: true
     minThicknessPadding: 0.03
     minLengthPadding: 0.25
+
+    providesTaskLauncherAnimation: true
+    providesGroupedWindowAddedAnimation: true
+    providesGroupedWindowRemovedAnimation: true
 
     readonly property bool progressVisible: indicator.hasOwnProperty("progressVisible") ? indicator.progressVisible : false
     readonly property bool isHorizontal: plasmoid.formFactor === PlasmaCore.Types.Horizontal
@@ -45,15 +52,16 @@ LatteComponents.IndicatorItem {
 
     readonly property bool showThreeTasksInGroup: indicator.configuration.showThreeTasksInGroup
 
-    readonly property int shownWindows: indicator.windowsCount - indicator.windowsMinimizedCount
-    readonly property int maxDrawnMinimizedWindows: shownWindows > 0 ? Math.min(indicator.windowsMinimizedCount,1) : 2
-
     readonly property int groupItemLength: indicator.currentIconSize * 0.13
     readonly property int groupsSideMargin: {
         if (indicator.windowsCount <= 1)
             return 0
         return Math.min(indicator.windowsCount - 1, (showThreeTasksInGroup ? 2 : 1) ) * root.groupItemLength
     }
+
+    property int previouslyMinimizedWindowsCount: 0
+
+    readonly property double taskIconScale: indicator.configuration.taskIconScaling
 
     //readonly property real backColorBrightness: colorBrightness(indicator.palette.backgroundColor)
     readonly property color activeColor: indicator.palette.linkColor
@@ -74,6 +82,17 @@ LatteComponents.IndicatorItem {
     // https://www.w3.org/TR/AERT/#color-contrast
     function colorBrightnessFromRGB(r, g, b) {
         return (r * 299 + g * 587 + b * 114) / 1000
+    }
+
+    // Extremely amazing-ly silly attempt of checking if a window got minimized
+    function didAWindowMinimizeJustNow() {
+        var result = false
+
+        if (root.previouslyMinimizedWindowsCount < indicator.windowsMinimizedCount)
+            result = true
+
+        root.previouslyMinimizedWindowsCount = indicator.windowsMinimizedCount
+        return result
     }
 
     readonly property int lineThickness: Math.max(indicator.currentIconSize * indicator.configuration.lineThickness, 2)
@@ -105,8 +124,15 @@ LatteComponents.IndicatorItem {
     Binding{
         target: level.requested
         property: "iconOffsetX"
-        when: level && level.requested && level.requested.hasOwnProperty("iconOffsetX")
+        when: level && level.requested && level.requested.hasOwnProperty("iconOffsetX") && showThreeTasksInGroup
         value: -root.groupsSideMargin / 6
+    }
+
+    Binding{
+        target: indicator.isTask && level.requested // So that we don't accidentally scale down the clock applet
+        property: "iconScale"
+        when: level && level.requested && level.requested.hasOwnProperty("iconScale")
+        value: root.taskIconScale
     }
 
     Binding{
@@ -174,7 +200,7 @@ LatteComponents.IndicatorItem {
             active: showThreeTasksInGroup && indicator.windowsCount>=3 && backgroundOpacity > 0 && !secondStackedLoader.isUnhoveredSecondStacked && !indicator.inRemoving
             opacity: 0.4
 
-            sourceComponent: GroupRect{
+            sourceComponent: GroupRect {
             }
         }
 
@@ -184,9 +210,134 @@ LatteComponents.IndicatorItem {
 
             active: indicator.isWindow
 
-            sourceComponent: ActiveLine{
+            sourceComponent: FrontLayer {
                 showProgress: root.progressVisible
             }
+        }
+    }
+
+    // Animations
+
+    Connections {
+        target: level
+        enabled: indicator.animationsEnabled && indicator.isTask && level.isBackground
+
+        onTaskGroupedWindowAdded: {
+            if (!windowAddedAnimation.running) {
+                windowAddedAnimation.start();
+            }
+        }
+
+        onTaskGroupedWindowRemoved: {
+            if (!windowRemovedAnimation.running) {
+                windowRemovedAnimation.start();
+            }
+        }
+    }
+
+    Connections {
+        target: level
+        enabled: indicator.animationsEnabled && indicator.isLauncher && level.isBackground
+        onTaskLauncherActivated: {
+            if (!pressedAnim.running) {
+                pressedAnim.start();
+            }
+        }
+    }
+
+    // When clicked on a taskbar item, Win11 scales the icon of it briefly.
+
+    // Slightly buggy: Animation abruptly ends when there are no active windows and the user clicks on the icon for a short period of time,
+    // even if alwaysRunToEnd is set to true.
+    // It works properly when there is at least one active window, and I have no idea why.
+    // The new animations from 0.10.4 cannot be used here, as in Win11, the animation itself runs as long as the user clicks on the task.
+
+    NumberAnimation {
+        id: pressedAnim
+        running: (indicator.isLauncher || indicator.isTask) && indicator.isPressed // && !indicator.hasActive && !indicator.inRemoving
+        alwaysRunToEnd: true
+
+        target: level ? level.requested : null
+        property: "iconScale"
+
+        loops: Animation.Infinite
+
+        to: root.taskIconScale * 0.8
+        duration: indicator.durationTime * 100
+        easing.type: Easing.InQuad
+
+        onStopped: {
+            pressedAnimEnd.start();
+        }
+    }
+
+    NumberAnimation {
+        id: pressedAnimEnd
+        target: level ? level.requested : null
+        property: "iconScale"
+
+        to: root.taskIconScale
+        duration: indicator.durationTime * 100
+        easing.type: Easing.OutQuad
+
+        onStopped: {
+            if (indicator.windowsCount === 1 && didAWindowMinimizeJustNow()) {
+                windowRemovedAnimation.start()
+            }
+        }
+    }
+
+    // When a grouped window is added, Win11 moves the app icon upwards very briefly.
+
+    SequentialAnimation {
+        id: windowAddedAnimation
+        alwaysRunToEnd: true
+
+        readonly property int animationStep: 125
+
+        readonly property string toProperty: isHorizontal ? "iconOffsetY" : "iconOffsetX"
+
+        PropertyAnimation {
+            target: level ? level.requested : null
+            property: windowRemovedAnimation.toProperty
+            to: (indicator.currentIconSize / 10) * ( (plasmoid.location === PlasmaCore.Types.TopEdge || plasmoid.location === PlasmaCore.Types.LeftEdge) ? 1 : -1 )
+            duration: indicator.durationTime * windowRemovedAnimation.animationStep
+            easing.type: Easing.Linear
+        }
+
+        PropertyAnimation {
+            target: level ? level.requested : null
+            property: windowRemovedAnimation.toProperty
+            to: 0
+            duration: 2.7 * indicator.durationTime * windowRemovedAnimation.animationStep
+            easing.type: Easing.OutBounce
+        }
+    }
+
+    // When a grouped window is closed, or a window is minimized, Win11 moves the app icon downwards very briefly.
+
+    SequentialAnimation {
+        id: windowRemovedAnimation
+        alwaysRunToEnd: true
+
+        readonly property int animationStep: 125
+
+        readonly property string toProperty: isHorizontal ? "iconOffsetY" : "iconOffsetX"
+
+        PropertyAnimation {
+            target: level ? level.requested : null
+            property: windowRemovedAnimation.toProperty
+            to: (indicator.currentIconSize / 10) * ( (plasmoid.location === PlasmaCore.Types.TopEdge || plasmoid.location === PlasmaCore.Types.LeftEdge) ? -1 : 1 )
+            duration: indicator.durationTime * windowRemovedAnimation.animationStep
+            easing.type: Easing.Linear
+        }
+
+        PropertyAnimation {
+            target: level ? level.requested : null
+            property: windowRemovedAnimation.toProperty
+            to: 0
+            duration: 2.7 * indicator.durationTime * windowRemovedAnimation.animationStep
+            easing.type: Easing.OutBounce
         }
     }
 }

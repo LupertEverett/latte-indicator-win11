@@ -22,7 +22,7 @@ Item {
 
         radius: 2
 
-        width: (indicator.hasActive || progressLoader.status !== Loader.Null) ? parent.width * 0.3 : parent.width * 0.15;
+        width: (indicator.hasActive || progressLoader.status !== Loader.Null) ? parent.width * 0.3 : parent.width * 0.15
 
         height: root.lineThickness
 

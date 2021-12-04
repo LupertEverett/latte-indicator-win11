@@ -1,5 +1,16 @@
 ### CHANGELOG
 
+#### Version 0.7.0
+
+* Animations for the following states:
+ - Pressing on a task (slightly buggy)
+ - Adding/removing a window to/from a group
+ - Window getting minimized by clicking on its icon.
+* Ability to change the icon scale of tasks.
+NOTE: These changes above bump the minimum required version of Latte to 0.10.4, due to use of the properties introduced in the said version.
+* Renamed ActiveLine to FrontLayer, so that it will always render above everything else.
+* Some minor cosmetic changes.
+
 #### Version 0.6.0
 
 * Reduced the amount of "grouped windows" to 2, to match it with how it actually is in Win11 (and 10).
