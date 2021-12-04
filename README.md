@@ -28,8 +28,6 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 
 # Notes
 
-* There are no custom animations yet.
-
 * Top and bottom panels have stylisations, while the remaining two use the bottom one's (for now?).
 
 * I don't (and cannot) use Win11, so I have no idea how accurate this indicator is. It is becoming better in that regard but still, any suggestions are appreciated!
