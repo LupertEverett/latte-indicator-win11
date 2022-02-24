@@ -1,5 +1,9 @@
 ### CHANGELOG
 
+#### Version 0.7.1
+
+* Moved the indicator line 1px closer to the screen edge (aka it should be "touching" to the "border" again).
+
 #### Version 0.7.0
 
 * Animations for the following states:

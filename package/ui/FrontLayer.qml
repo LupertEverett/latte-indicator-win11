@@ -11,7 +11,7 @@ Item {
 
     readonly property bool isOnTopEdge: (plasmoid.location === PlasmaCore.Types.TopEdge)
 
-    readonly property int lineMargin: PlasmaCore.Units.smallSpacing * 0.5 + 2
+    readonly property int lineMargin: PlasmaCore.Units.smallSpacing * 0.5 + 1
 
     Rectangle {
         id: activeLine
