@@ -35,7 +35,7 @@ LatteComponents.IndicatorItem {
     providesHoveredAnimation: true
     providesClickedAnimation: true
     minThicknessPadding: 0.03
-    minLengthPadding: 0.25
+    minLengthPadding: 0.15
 
     providesTaskLauncherAnimation: true
     providesGroupedWindowAddedAnimation: true

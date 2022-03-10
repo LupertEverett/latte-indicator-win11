@@ -1,5 +1,9 @@
 ### CHANGELOG
 
+#### Version 0.7.2
+
+* Reduced the minimum possible Task Length value from 25% to 15%, per request by skyhaus178.
+
 #### Version 0.7.1
 
 * Moved the indicator line 1px closer to the screen edge (aka it should be "touching" to the "border" again).

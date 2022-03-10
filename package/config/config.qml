@@ -216,7 +216,7 @@ ColumnLayout {
                 Layout.fillWidth: true
 
                 value: Math.round(indicator.configuration.lengthPadding * 100)
-                from: 25
+                from: 15
                 to: maxMargin
                 stepSize: 1
                 wheelEnabled: false
