@@ -350,7 +350,7 @@ ColumnLayout {
 
         LatteComponents.CheckBox {
             Layout.maximumWidth: dialog.optionsWidth
-            text: i18n("Progress animation in background")
+            text: i18n("Progress animation in the indicator line")
             checked: indicator.configuration.progressAnimationEnabled
 
             onClicked: {

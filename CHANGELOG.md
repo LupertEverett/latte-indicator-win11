@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.8.0
+
+* Much more accurate "grouping effect", which should also work better with bigger panel sizes now.
+* Renamed the "Progress animation in background" option to "Progress animation in the indicator line", to make its purpose actually make sense.
+
 #### Version 0.7.2
 
 * Reduced the minimum possible Task Length value from 25% to 15%, per request by skyhaus178.
