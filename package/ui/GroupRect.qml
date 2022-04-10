@@ -44,7 +44,7 @@ Item {
             anchors.left: parent.left
             anchors.top: parent.top
             width: parent.width
-            height: parent.height
+            height: secondRect.height
             color: "transparent"
             visible: false
 
@@ -54,12 +54,12 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: 1
 
-                height: parent.height - 3 //0.9 * parent.height + 1
+                height: secondRect.height - 3 //0.9 * parent.height + 1
                 width: 2 * root.groupItemLength // 0.3
 
                 color: "black"
 
-                radius: 6
+                radius: secondRect.rectRadius
             }
         }
 

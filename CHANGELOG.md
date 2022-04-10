@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.8.1
+
+* Fixed a little graphical glitch with the gradients when windows are grouped.
+* The indicator line should be touching to the "border" for real this time.
+
 #### Version 0.8.0
 
 * Much more accurate "grouping effect", which should also work better with bigger panel sizes now.
