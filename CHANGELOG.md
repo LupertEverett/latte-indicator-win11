@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.8.2
+
+* Hopefully fixed the appearance of the grouping effect. It can still look a bit different with different display scales.
+* Fixed a very minor graphical glitch with switching between 2 grouped windows max and 3 grouped windows max in the options.
+
 #### Version 0.8.1
 
 * Fixed a little graphical glitch with the gradients when windows are grouped.

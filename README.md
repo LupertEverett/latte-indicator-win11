@@ -30,6 +30,8 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 
 * Top and bottom panels have stylisations, while the remaining two use the bottom one's (for now?).
 
+* The "separator curve" can look a bit thinner when the display scale is set to 100%. It was appearing correct when I used 106.25% and 112.5% scales. I even had it not showing up at all when I switched distros so I have no idea what exactly happens there.
+
 * I don't (and cannot) use Win11, so I have no idea how accurate this indicator is. It is becoming better in that regard but still, any suggestions are appreciated!
 
 # Requires

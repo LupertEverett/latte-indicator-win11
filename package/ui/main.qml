@@ -124,8 +124,8 @@ LatteComponents.IndicatorItem {
     Binding{
         target: level.requested
         property: "iconOffsetX"
-        when: level && level.requested && level.requested.hasOwnProperty("iconOffsetX") && showThreeTasksInGroup
-        value: -root.groupsSideMargin / 6
+        when: level && level.requested && level.requested.hasOwnProperty("iconOffsetX")
+        value: (showThreeTasksInGroup && indicator.windowsCount > 2) ? -root.groupsSideMargin / 6 : 0
     }
 
     Binding{

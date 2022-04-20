@@ -25,7 +25,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item {
     id: groupRoot
-    width: root.groupItemLength + 4 //layerWidth
+    width: 2 * root.groupItemLength //layerWidth
     height: parent.height
 
     Item {
@@ -44,18 +44,18 @@ Item {
             anchors.left: parent.left
             anchors.top: parent.top
             width: parent.width
-            height: secondRect.height
+            height: parent.height
             color: "transparent"
             visible: false
 
             Rectangle {
                 anchors.left: parent.left
-                anchors.leftMargin: -(width / 2)
+                anchors.leftMargin: -0.5 * width
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: 1
 
-                height: secondRect.height - 3 //0.9 * parent.height + 1
-                width: 2 * root.groupItemLength // 0.3
+                height: parent.height - 3
+                width: 1.15 * groupRoot.width
 
                 color: "black"
 
