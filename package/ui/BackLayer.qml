@@ -33,15 +33,19 @@ Item{
 
     readonly property int rectRadius: indicator.currentIconSize / 6
 
+    readonly property color win11AttentionColor: indicatorMode === 0 /* light */ ? Qt.lighter("#c42b1c", 2) : Qt.darker("#ff99a4", 2)
+    readonly property color inAttentionColor: indicator.configuration.useAccentColorForInAttention ? Qt.lighter(root.activeColor) : win11AttentionColor
+
     Rectangle {
         id: mainRect
         anchors.fill: parent
 
         radius: rectRadius
-        color: indicator.inAttention ? Qt.lighter(root.activeColor) : (indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0")
+        color: indicator.inAttention ? inAttentionColor : (indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0")
         visible: opacity > 0
         opacity: root.backgroundOpacity
         border.color: indicator.inAttention ? Qt.lighter(mainRect.color, 1.1) : (indicatorMode === 0 /* light */ ? "#c8c8c8" : "#f0f0f0")
+        border.width: 0
 
         anchors.topMargin: baseMargin
         anchors.leftMargin: baseMargin * (indicator.isTask ? 2 : 0)
@@ -66,7 +70,6 @@ Item{
             //height: mainRect.height
             radius: mainRect.radius
             color: "transparent"
-            border.width: 2
             visible: false
         }
 
@@ -86,7 +89,7 @@ Item{
             width: mainRect.width
             height: mainRect.height
             source: borderEffect
-            maskSource: backRect
+            maskSource: mainRect
             visible: mainRect.visible
             opacity: mainRect.opacity + 0.05
         }
@@ -100,7 +103,7 @@ Item{
                 color: mainRect.border.color
             }
             GradientStop {
-                position: 0.1
+                position: 0.05
                 color: "transparent"
             }
         }
@@ -108,7 +111,7 @@ Item{
         Gradient {
             id: topGradient
             GradientStop {
-                position: 0.9
+                position: 0.95
                 color: "transparent"
             }
             GradientStop {

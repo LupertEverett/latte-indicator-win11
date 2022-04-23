@@ -360,6 +360,26 @@ ColumnLayout {
 
         LatteComponents.CheckBox {
             Layout.maximumWidth: dialog.optionsWidth
+            text: i18n("Use accent color for tasks needing attention")
+            checked: indicator.configuration.useAccentColorForInAttention
+
+            onClicked: {
+                indicator.configuration.useAccentColorForInAttention = !indicator.configuration.useAccentColorForInAttention
+            }
+        }
+
+        LatteComponents.CheckBox {
+            Layout.maximumWidth: dialog.optionsWidth
+            text: i18n("Enable task grouping")
+            checked: indicator.configuration.enableTaskGrouping
+
+            onClicked: {
+                indicator.configuration.enableTaskGrouping = !indicator.configuration.enableTaskGrouping
+            }
+        }
+
+        LatteComponents.CheckBox {
+            Layout.maximumWidth: dialog.optionsWidth
             text: i18n("Show 3 tasks as a group (Win7-like) instead of 2 (Win10/11-like)")
             checked: indicator.configuration.showThreeTasksInGroup
 
@@ -367,17 +387,17 @@ ColumnLayout {
                 indicator.configuration.showThreeTasksInGroup = !indicator.configuration.showThreeTasksInGroup
             }
         }
-    }
 
-    LatteComponents.CheckBox {
-        Layout.maximumWidth: dialog.optionsWidth
-        text: i18n("Show indicators for applets")
-        checked: indicator.configuration.enabledForApplets
-        tooltip: i18n("Indicators are shown for applets")
-        visible: deprecatedPropertiesAreHidden
+        LatteComponents.CheckBox {
+            Layout.maximumWidth: dialog.optionsWidth
+            text: i18n("Show indicators for applets")
+            checked: indicator.configuration.enabledForApplets
+            tooltip: i18n("Indicators are shown for applets")
+            visible: deprecatedPropertiesAreHidden
 
-        onClicked: {
-            indicator.configuration.enabledForApplets = !indicator.configuration.enabledForApplets;
+            onClicked: {
+                indicator.configuration.enabledForApplets = !indicator.configuration.enabledForApplets;
         }
+    }
     }
 }

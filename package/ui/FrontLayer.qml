@@ -9,6 +9,9 @@ Item {
     property bool showProgress: false
     property int indicatorMode: root.indicatorMode
 
+    readonly property color win11AttentionColor: indicatorMode === 0 /* light */ ? "#c42b1c" : "#ff99a4"
+    readonly property color inAttentionColor: indicator.configuration.useAccentColorForInAttention ? root.activeColor : win11AttentionColor
+
     readonly property bool isOnTopEdge: (plasmoid.location === PlasmaCore.Types.TopEdge)
 
     readonly property int lineMargin: PlasmaCore.Units.smallSpacing * 0.6
@@ -30,7 +33,9 @@ Item {
             if (progressLoader.status !== Loader.Null) {
                return indicatorMode === 0 /* Light */ ? "#b5b5b5" : "#2a2a2a"
             }
-            else if ( indicator.inAttention || (indicator.hasActive && progressLoader.status === Loader.Null))
+            else if (indicator.inAttention)
+                return inAttentionColor
+            else if (indicator.hasActive && progressLoader.status === Loader.Null)
                 // Note: Your Plasma Style MUST support custom color schemes if you want to
                 // be able to change the color with the custom accent color option
                 return root.activeColor
