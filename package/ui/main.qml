@@ -107,7 +107,7 @@ LatteComponents.IndicatorItem {
     }
 
     readonly property real backgroundOpacity: {
-        if (indicator.isHovered && indicator.hasActive) {
+        if (indicator.inAttention || (indicator.isHovered && indicator.hasActive)) {
             return indicator.configuration.maxBackgroundOpacity;
         } else if (indicator.hasActive) {
             return indicator.configuration.maxBackgroundOpacity - opacityStep;

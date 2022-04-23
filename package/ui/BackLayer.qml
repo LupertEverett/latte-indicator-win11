@@ -24,7 +24,7 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item{
-    property bool isActive: indicator.isActive || (indicator.isWindow && indicator.hasActive)
+    property bool isActive: indicator.isActive || (indicator.isWindow && (indicator.hasActive || indicator.inAttention))
     property int indicatorMode: root.indicatorMode
 
     readonly property bool isOnTopEdge: (plasmoid.location === PlasmaCore.Types.TopEdge)
@@ -38,11 +38,10 @@ Item{
         anchors.fill: parent
 
         radius: rectRadius
-        color: indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0"
+        color: indicator.inAttention ? Qt.lighter(root.activeColor) : (indicatorMode === 0 /* light */ ? "#f8f8f8" : "#b0b0b0")
         visible: opacity > 0
         opacity: root.backgroundOpacity
-        //border.width: 1
-        border.color: indicatorMode === 0 /* light */ ? "#c8c8c8" : "#f0f0f0"
+        border.color: indicator.inAttention ? Qt.lighter(mainRect.color, 1.1) : (indicatorMode === 0 /* light */ ? "#c8c8c8" : "#f0f0f0")
 
         anchors.topMargin: baseMargin
         anchors.leftMargin: baseMargin * (indicator.isTask ? 2 : 0)

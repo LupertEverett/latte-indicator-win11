@@ -30,7 +30,7 @@ Item {
             if (progressLoader.status !== Loader.Null) {
                return indicatorMode === 0 /* Light */ ? "#b5b5b5" : "#2a2a2a"
             }
-            else if (indicator.hasActive && progressLoader.status === Loader.Null)
+            else if ( indicator.inAttention || (indicator.hasActive && progressLoader.status === Loader.Null))
                 // Note: Your Plasma Style MUST support custom color schemes if you want to
                 // be able to change the color with the custom accent color option
                 return root.activeColor
