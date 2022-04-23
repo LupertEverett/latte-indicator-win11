@@ -1,5 +1,11 @@
 ### CHANGELOG
 
+#### Version 0.9.0
+
+* Added coloring for apps that need attention, it can be either set up to use Win11 colors (default option) or the colors calculated from the accent color of the plasma theme.
+* Changed the glow effect a bit.
+* Added an option to disable task grouping.
+
 #### Version 0.8.2
 
 * Hopefully fixed the appearance of the grouping effect. It can still look a bit different with different display scales.

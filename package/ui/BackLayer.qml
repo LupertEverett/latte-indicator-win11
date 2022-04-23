@@ -62,7 +62,7 @@ Item{
 
         // Slight "glow" on the top of the task is taken from:
         // https://github.com/JM-Enthusiast/latte-indicator-win11/blob/main/package/ui/BackLayer.qml
-
+        /*
         Rectangle {
             id: backRect
             anchors.fill: parent
@@ -73,6 +73,7 @@ Item{
             color: "transparent"
             visible: false
         }
+        */
 
         Rectangle {
             id: borderEffect
