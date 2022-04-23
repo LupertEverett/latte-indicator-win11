@@ -22,7 +22,7 @@ This is a Win11 style indicator for [Latte Dock](https://phabricator.kde.org/sou
 </p>
 
 <p align="center">
-<img src="https://imgur.com/R2SBNgy.png" width="560" ><br/>
+<img src="https://imgur.com/d699Bmi.png" width="560" ><br/>
 <i>Settings page as of 0.9.0</i>
 </p>
 
