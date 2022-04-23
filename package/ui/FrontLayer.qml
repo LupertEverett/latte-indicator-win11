@@ -10,7 +10,7 @@ Item {
     property int indicatorMode: root.indicatorMode
 
     readonly property color win11AttentionColor: indicatorMode === 0 /* light */ ? "#c42b1c" : "#ff99a4"
-    readonly property color inAttentionColor: indicator.configuration.useAccentColorForInAttention ? root.activeColor : win11AttentionColor
+    readonly property color inAttentionColor: indicator.configuration.useAccentColorForInAttention ? Qt.lighter(root.activeColor, 1.1) : win11AttentionColor
 
     readonly property bool isOnTopEdge: (plasmoid.location === PlasmaCore.Types.TopEdge)
 

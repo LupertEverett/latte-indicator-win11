@@ -46,17 +46,18 @@ LatteComponents.IndicatorItem {
     readonly property bool isVertical: !isHorizontal
 
     readonly property int screenEdgeMargin: indicator.hasOwnProperty("screenEdgeMargin") ? indicator.screenEdgeMargin : 0
-    readonly property int thickness: !isHorizontal ? width - screenEdgeMargin : height - screenEdgeMargin
+    //readonly property int thickness: !isHorizontal ? width - screenEdgeMargin : height - screenEdgeMargin
 
     readonly property int indicatorMode: indicator.configuration.indicatorMode
 
+    readonly property bool enableTaskGrouping: indicator.configuration.enableTaskGrouping
     readonly property bool showThreeTasksInGroup: indicator.configuration.showThreeTasksInGroup
 
     readonly property int groupItemLength: indicator.currentIconSize * 0.13
     readonly property int groupsSideMargin: {
-        if (indicator.windowsCount <= 1)
+        if (!enableTaskGrouping || indicator.windowsCount <= 1)
             return 0
-        return Math.min(indicator.windowsCount - 1, (showThreeTasksInGroup ? 2 : 1) ) * root.groupItemLength
+        return Math.min(indicator.windowsCount - 1, (enableTaskGrouping && showThreeTasksInGroup ? 2 : 1) ) * root.groupItemLength
     }
 
     property int previouslyMinimizedWindowsCount: 0
@@ -96,7 +97,7 @@ LatteComponents.IndicatorItem {
     }
 
     readonly property int lineThickness: Math.max(indicator.currentIconSize * indicator.configuration.lineThickness, 2)
-    readonly property int shrinkLengthEdge: 0.13 * parent.width
+    //readonly property int shrinkLengthEdge: 0.13 * parent.width
 
     readonly property real opacityStep: {
         if (indicator.configuration.maxBackgroundOpacity >= 0.3) {
@@ -125,7 +126,7 @@ LatteComponents.IndicatorItem {
         target: level.requested
         property: "iconOffsetX"
         when: level && level.requested && level.requested.hasOwnProperty("iconOffsetX")
-        value: (showThreeTasksInGroup && indicator.windowsCount > 2) ? -root.groupsSideMargin / 6 : 0
+        value: (enableTaskGrouping && showThreeTasksInGroup && indicator.windowsCount > 2) ? -root.groupsSideMargin / 6 : 0
     }
 
     Binding{
@@ -182,7 +183,7 @@ LatteComponents.IndicatorItem {
             anchors.rightMargin: (showThreeTasksInGroup && indicator.windowsCount > 2 && active) ? groupItemLength : 0
 
             height: parent.height
-            active: indicator.windowsCount>=2 && !indicator.inRemoving
+            active: enableTaskGrouping && indicator.windowsCount>=2 && !indicator.inRemoving
             opacity: 0.7
 
             readonly property bool isUnhoveredSecondStacked: active && !indicator.isHovered && root.backgroundOpacity === 0
@@ -197,7 +198,7 @@ LatteComponents.IndicatorItem {
             anchors.verticalCenter: parent.verticalCenter
 
             height: parent.height
-            active: showThreeTasksInGroup && indicator.windowsCount>=3 && backgroundOpacity > 0 && !secondStackedLoader.isUnhoveredSecondStacked && !indicator.inRemoving
+            active: enableTaskGrouping && showThreeTasksInGroup && indicator.windowsCount>=3 && backgroundOpacity > 0 && !secondStackedLoader.isUnhoveredSecondStacked && !indicator.inRemoving
             opacity: 0.4
 
             sourceComponent: GroupRect {

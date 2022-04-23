@@ -34,7 +34,8 @@ Item{
     readonly property int rectRadius: indicator.currentIconSize / 6
 
     readonly property color win11AttentionColor: indicatorMode === 0 /* light */ ? Qt.lighter("#c42b1c", 2) : Qt.darker("#ff99a4", 2)
-    readonly property color inAttentionColor: indicator.configuration.useAccentColorForInAttention ? Qt.lighter(root.activeColor) : win11AttentionColor
+    readonly property color accentAttentionColor: indicatorMode === 0 /* light */ ? Qt.lighter(root.activeColor, 2) : Qt.darker(root.activeColor, 2)
+    readonly property color inAttentionColor: indicator.configuration.useAccentColorForInAttention ? accentAttentionColor : win11AttentionColor
 
     Rectangle {
         id: mainRect
@@ -50,7 +51,7 @@ Item{
         anchors.topMargin: baseMargin
         anchors.leftMargin: baseMargin * (indicator.isTask ? 2 : 0)
         anchors.bottomMargin: !isOnTopEdge ? baseMargin - 1 : baseMargin
-        anchors.rightMargin: baseMargin * (indicator.isTask ? 2 : 0) - (indicator.windowsCount >= 2 ? groupItemLength * 0.6 : 0)
+        anchors.rightMargin: baseMargin * (indicator.isTask ? 2 : 0) - (root.enableTaskGrouping && indicator.windowsCount >= 2 ? groupItemLength * 0.6 : 0)
 
         Behavior on opacity {
             NumberAnimation {
