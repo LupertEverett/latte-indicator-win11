@@ -25,7 +25,7 @@ Item {
 
         radius: 2
 
-        width: (indicator.hasActive || progressLoader.status !== Loader.Null) ? parent.width * 0.3 : parent.width * 0.15
+        width: (progressLoader.status !== Loader.Null) ? parent.width / 2 : (indicator.hasActive ? parent.width / 3 : parent.width / 6)
 
         height: root.lineThickness
 
