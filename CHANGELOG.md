@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.9.1
+
+* Indicator line now grows in width when it is in "in progress" state, matching Win11 behaviour.
+* Fixed (hopefully?) a bug where the window minimized/closed animation was moving the icon upwards instead of downwards.
+
 #### Version 0.9.0
 
 * Added coloring for apps that need attention, it can be either set up to use Win11 colors (default option) or the colors calculated from the accent color of the plasma theme.
