@@ -328,7 +328,7 @@ LatteComponents.IndicatorItem {
         PropertyAnimation {
             target: level ? level.requested : null
             property: windowRemovedAnimation.toProperty
-            to: (indicator.currentIconSize / 10) * ( (plasmoid.location === PlasmaCore.Types.TopEdge || plasmoid.location === PlasmaCore.Types.LeftEdge) ? -1 : 1 )
+            to: (indicator.currentIconSize / 10) * ( (plasmoid.location === PlasmaCore.Types.TopEdge || plasmoid.location === PlasmaCore.Types.LeftEdge) ? 1 : -1 )
             duration: indicator.durationTime * windowRemovedAnimation.animationStep
             easing.type: Easing.Linear
         }
